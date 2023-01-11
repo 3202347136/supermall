@@ -31,7 +31,8 @@ const router = new Router({
       path: '/category',
       component: Category
     }
-  ]
+  ],
+  mode: 'history'
 })
 
 export default router

@@ -46,9 +46,4 @@ export default {
   height: 49px;
   vertical-align: middle;
 }
-
-img {
-  width: 24px;
-  height: 24px;
-}
 </style>
