@@ -43,9 +43,9 @@ export default {
 <style>
 .swiper-container {
   margin: auto;
-  width: 750px;
-  height: 390px;
-  border: 1px red solid;
+  margin-top: 44px;
+  width: 100%;
+  height: 100%;
 }
 
 .swiper-pagination {

@@ -20,8 +20,12 @@ export default {
 
 <style>
 .nav-bar {
+  position: fixed;
+  top: 0;
   display: flex;
   line-height: 44px;
+  z-index: 2;
+  width: 100%;
 }
 
 .left,
@@ -32,6 +36,7 @@ export default {
 }
 
 .center {
+  right: 0;
   flex: 1;
   /* background-color: skyblue; */
   text-align: center;
