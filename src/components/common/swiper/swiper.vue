@@ -40,10 +40,9 @@ export default {
 
 </script>
 
-<style>
+<style scoped>
 .swiper-container {
   margin: auto;
-  margin-top: 44px;
   width: 100%;
   height: 100%;
 }
