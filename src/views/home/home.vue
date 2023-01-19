@@ -3,7 +3,7 @@
     <NavBar class="home-nav">
       <div slot="center">我是购物街</div>
     </NavBar>
-    <Scroll class="content" ref="backTop" @scroll="contentScroll" :probe-type="3" :pull-up-load="true"
+    <Scroll class="content" ref="scroll" @scroll="contentScroll" :probe-type="3" :pull-up-load="true"
       @pullingUp="loadMore">
       <HomeSwiper :banners="banners"></HomeSwiper>
       <Homerecommend :recommends="recommends"></Homerecommend>
@@ -54,7 +54,7 @@ export default {
       isShowBack: false
     }
   },
-  mounted() {
+  created() {
     //请求多个数据
     this.getHomeMultidata()
     //请求商品数据
@@ -62,16 +62,36 @@ export default {
     this.getHomeGoods('new')
     this.getHomeGoods('sell')
   },
+  mounted() {
+
+    //监听图片加载完成
+    const refresh = this.debounce(this.$refs.scroll.refresh, 400)
+    this.$bus.$on('imageItemload', () => {
+      refresh()
+      // this.$refs.scroll.refresh()
+      console.log('------')
+    })
+
+  },
   methods: {
     /** 
       *事件监听相关方法
       */
+    debounce(fn, delay) {
+      let timer = null
+      return function (...args) {
+        if (timer) clearTimeout(timer)
+        timer = setTimeout(() => {
+          fn.apply(this, args)
+        }, delay)
+      }
+    },
     contentScroll(position) {
       // console.log(position)
       this.isShowBack = (-position.y) > 1000
     },
     backTop() {
-      this.$refs.backTop.backToTop(0, 0, 500)
+      this.$refs.scroll.backToTop(0, 0, 500)
     },
     tabclick(index) {
       switch (index) {
@@ -88,6 +108,7 @@ export default {
     },
     loadMore() {
       this.getHomeGoods(this.currentType)
+      this.$refs.scroll.scroll.refresh()
     },
     /** 
        *网络请求相关方法
@@ -106,9 +127,9 @@ export default {
         // console.log(res)
         this.goods[type].list.push(...res.data.data.list)
         this.goods[type].page += 1
+        this.$refs.scroll.finishPullUp()
       })
     },
-
   }
 }
 </script>
