@@ -3,12 +3,15 @@
     <NavBar class="home-nav">
       <div slot="center">我是购物街</div>
     </NavBar>
+    <Tabcontrol :titles="['流行', '新款', '精选']" @tabclick="tabclick" ref="tabcontrol1" class="TabControl"
+      v-show="isTabFixed"></Tabcontrol>
     <Scroll class="content" ref="scroll" @scroll="contentScroll" :probe-type="3" :pull-up-load="true"
       @pullingUp="loadMore">
-      <HomeSwiper :banners="banners"></HomeSwiper>
-      <Homerecommend :recommends="recommends"></Homerecommend>
+      <HomeSwiper :banners="banners" @imageLoad="imageLoad"></HomeSwiper>
+      <Homerecommend :recommends="recommends" class="recemmends"></Homerecommend>
       <Homefeature></Homefeature>
-      <Tabcontrol class="tabcontrol" :titles="['流行', '新款', '精选']" @tabclick="tabclick"></Tabcontrol>
+      <Tabcontrol :titles="['流行', '新款', '精选']" @tabclick="tabclick" ref="tabcontrol2">
+      </Tabcontrol>
       <Goodlist :goods="goods[currentType].list"></Goodlist>
     </Scroll>
     <BackTop @click.native="backTop" v-show="isShowBack"></BackTop>
@@ -51,7 +54,9 @@ export default {
       },
       result: null,
       currentType: 'pop',
-      isShowBack: false
+      isShowBack: false,
+      tabOffsetTop: 0,
+      isTabFixed: false
     }
   },
   created() {
@@ -69,9 +74,8 @@ export default {
     this.$bus.$on('imageItemload', () => {
       refresh()
       // this.$refs.scroll.refresh()
-      console.log('------')
+      // console.log('------')
     })
-
   },
   methods: {
     /** 
@@ -89,6 +93,7 @@ export default {
     contentScroll(position) {
       // console.log(position)
       this.isShowBack = (-position.y) > 1000
+      this.isTabFixed = (-position.y) > this.tabOffsetTop
     },
     backTop() {
       this.$refs.scroll.backToTop(0, 0, 500)
@@ -105,10 +110,16 @@ export default {
           this.currentType = 'sell'
           break
       }
+      this.$refs.tabcontrol1.currentIndex = index
+      this.$refs.tabcontrol2.currentIndex = index
     },
     loadMore() {
       this.getHomeGoods(this.currentType)
-      this.$refs.scroll.scroll.refresh()
+      this.$refs.scroll.refresh()
+    },
+    imageLoad() {
+      // console.log(this.$refs.tabcontrol2.$el.offsetTop)
+      this.tabOffsetTop = this.$refs.tabcontrol2.$el.offsetTop
     },
     /** 
        *网络请求相关方法
@@ -136,7 +147,7 @@ export default {
 
 <style scoped>
 #home {
-  padding-top: 44px;
+  /* padding-top: 44px; */
   position: relative;
   height: 100vh;
 }
@@ -145,11 +156,6 @@ export default {
   background-color: var(--color-tint);
 }
 
-.tabcontrol {
-  position: sticky;
-  top: 44px;
-  z-index: 99;
-}
 
 .content {
   position: absolute;
@@ -158,5 +164,14 @@ export default {
   left: 0;
   right: 0;
   overflow: hidden;
+}
+
+.recemmends {
+  background-color: #fff;
+}
+
+.TabControl {
+  position: relative;
+  z-index: 11;
 }
 </style>

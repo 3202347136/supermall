@@ -3,7 +3,7 @@
     <swiper ref="homeSwiper" :options="swiperOptions">
       <swiper-slide v-for="(item, index) in banners">
         <a :href="banners[index].link">
-          <img :src="banners[index].image" alt="" width="100%" height="100%">
+          <img :src="banners[index].image" alt="" width="100%" height="100%" @load="imageLoad">
         </a>
       </swiper-slide>
       <div class="swiper-pagination" slot="pagination"></div>
@@ -21,7 +21,7 @@ export default {
   data() {
     return {
       swiperOptions: {
-        effect: 'cube',
+        effect: 'slide',
         pagination: {
           el: '.swiper-pagination',
           clickable: true
@@ -33,7 +33,17 @@ export default {
           disableOnInteraction: false
         }
 
+      },
+      isLoad: false
+    }
+  },
+  methods: {
+    imageLoad() {
+      if (!this.isLoad) {
+        this.$emit('imageLoad')
+        this.isLoad = true
       }
+
     }
   }
 }
@@ -45,6 +55,7 @@ export default {
   margin: auto;
   width: 100%;
   height: 100%;
+  padding-bottom: -8px;
 }
 
 .swiper-pagination {

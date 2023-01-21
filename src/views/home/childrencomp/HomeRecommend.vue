@@ -31,6 +31,7 @@ export default {
   display: flex;
   text-align: center;
   border-bottom: 10px #eee solid;
+  margin-top: -5px;
 }
 
 .recommend-text {
@@ -41,7 +42,7 @@ export default {
   width: 75%;
   height: 60%;
   margin-bottom: 10px;
-  margin-top: 15px;
+  margin-top: 25px;
 }
 
 .recommend-item {

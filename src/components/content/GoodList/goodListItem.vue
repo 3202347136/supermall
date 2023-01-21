@@ -1,8 +1,8 @@
 <template>
   <div class="goodListItem">
-    <a :href="goodsItem.link">
+    <div @click="goodsItemClick">
       <img :src="goodsItem.show.img" alt="" @load="imageItem">
-    </a>
+    </div>
     <div class="goods-info">
       <p>
         {{ goodsItem.title }}
@@ -30,6 +30,9 @@ export default {
   methods: {
     imageItem() {
       this.$bus.$emit('imageItemload')
+    },
+    goodsItemClick() {
+      this.$router.push('/detail/' + this.goodsItem.iid)
     }
   }
 }

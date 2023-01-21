@@ -18,13 +18,10 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .nav-bar {
-  position: fixed;
-  top: 0;
   display: flex;
   line-height: 44px;
-  z-index: 2;
   width: 100%;
 }
 
@@ -40,6 +37,6 @@ export default {
   flex: 1;
   /* background-color: skyblue; */
   text-align: center;
-  color: #fff;
+  /* color: #fff; */
 }
 </style>
