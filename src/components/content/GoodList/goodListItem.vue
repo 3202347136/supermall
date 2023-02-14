@@ -1,7 +1,7 @@
 <template>
   <div class="goodListItem">
     <div @click="goodsItemClick">
-      <img :src="goodsItem.show.img" alt="" @load="imageItem">
+      <img :src="showImg" alt="" @load="imageItem">
     </div>
     <div class="goods-info">
       <p>
@@ -9,7 +9,6 @@
       </p>
       <span class="price">{{ goodsItem.price }}</span>
       <img class="view" src="~assets/img/collect.svg" alt="">
-
       <span class="collect"> {{ goodsItem.cfav }}</span>
     </div>
   </div>
@@ -25,6 +24,11 @@ export default {
       default() {
         return {}
       }
+    }
+  },
+  computed: {
+    showImg() {
+      return this.goodsItem.image || this.goodsItem.show.img
     }
   },
   methods: {

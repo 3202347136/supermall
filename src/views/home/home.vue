@@ -31,6 +31,9 @@ import Homefeature from './childrencomp/HomeFeature'
 import Tabcontrol from 'components/content/Tabcontrol/Tabcontrol'
 import Goodlist from 'components/content/GoodList/goodList'
 import BackTop from 'components/content/BackTop/backTop'
+
+import { itemListenerMixin } from 'common/mixin'
+
 export default {
   name: 'home',
   components: {
@@ -56,7 +59,8 @@ export default {
       currentType: 'pop',
       isShowBack: false,
       tabOffsetTop: 0,
-      isTabFixed: false
+      isTabFixed: false,
+      itemListener: null
     }
   },
   created() {
@@ -67,36 +71,20 @@ export default {
     this.getHomeGoods('new')
     this.getHomeGoods('sell')
   },
-  mounted() {
+  mixins: [itemListenerMixin],
 
-    //监听图片加载完成
-    const refresh = this.debounce(this.$refs.scroll.refresh, 400)
-    this.$bus.$on('imageItemload', () => {
-      refresh()
-      // this.$refs.scroll.refresh()
-      // console.log('------')
-    })
-  },
+  mounted() { },
   methods: {
     /** 
       *事件监听相关方法
       */
-    debounce(fn, delay) {
-      let timer = null
-      return function (...args) {
-        if (timer) clearTimeout(timer)
-        timer = setTimeout(() => {
-          fn.apply(this, args)
-        }, delay)
-      }
-    },
     contentScroll(position) {
       // console.log(position)
       this.isShowBack = (-position.y) > 1000
       this.isTabFixed = (-position.y) > this.tabOffsetTop
     },
     backTop() {
-      this.$refs.scroll.backToTop(0, 0, 500)
+      this.$refs.scroll && this.$refs.scroll.backToTop(0, 0, 500)
     },
     tabclick(index) {
       switch (index) {
@@ -115,7 +103,7 @@ export default {
     },
     loadMore() {
       this.getHomeGoods(this.currentType)
-      this.$refs.scroll.refresh()
+      this.$refs.scroll && this.$refs.scroll.refresh()
     },
     imageLoad() {
       // console.log(this.$refs.tabcontrol2.$el.offsetTop)
@@ -138,7 +126,7 @@ export default {
         // console.log(res)
         this.goods[type].list.push(...res.data.data.list)
         this.goods[type].page += 1
-        this.$refs.scroll.finishPullUp()
+        this.$refs.scroll && this.$refs.scroll.finishPullUp()
       })
     },
   }
@@ -154,6 +142,7 @@ export default {
 
 .home-nav {
   background-color: var(--color-tint);
+  color: #fff;
 }
 
 

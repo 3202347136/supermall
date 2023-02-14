@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nav-bar>
+    <nav-bar class="nav-bar">
       <div slot="left" class="back">
         <img src="~assets/img/back.svg" alt="" @click="backClick">
       </div>
@@ -11,6 +11,9 @@
         </div>
       </div>
     </nav-bar>
+    <swiper>
+
+    </swiper>
   </div>
 </template>
 
@@ -19,6 +22,14 @@ import navBar from 'components/common/navbar/NavBar'
 
 export default {
   name: 'DetailNavBar',
+  props: {
+    topImage: {
+      type: Array,
+      default() {
+        return []
+      }
+    }
+  },
   components: {
     navBar
   },
@@ -40,12 +51,17 @@ export default {
 </script>
 
 <style  scoped>
+.nav-bar {
+  background-color: aliceblue;
+}
+
 .title {
   display: flex;
 }
 
 .title-item {
   flex: 1;
+  line-height: 44px;
 }
 
 .active span {
@@ -56,6 +72,6 @@ export default {
 .back img {
   width: 30px;
   height: 30px;
-  margin-top: 10px;
+  margin-top: 5px;
 }
 </style>

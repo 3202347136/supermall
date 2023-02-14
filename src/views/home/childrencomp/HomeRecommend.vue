@@ -27,7 +27,7 @@ export default {
 .Recommend {
   margin: auto;
   width: 100%;
-  height: 200px;
+  height: 20%;
   display: flex;
   text-align: center;
   border-bottom: 10px #eee solid;
