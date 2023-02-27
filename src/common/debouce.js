@@ -1,4 +1,4 @@
-export function debouce(fn, delay) {
+export function debouce(fn, delay = 50) {
   let timer = null
   return function (...args) {
     if (timer) clearTimeout(timer)

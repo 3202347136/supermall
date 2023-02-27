@@ -1,10 +1,15 @@
 import { debouce } from './debouce.js'
 
 export const itemListenerMixin = {
+  data() {
+    return {
+      newrefresh: null
+    }
+  },
   mounted() {
-    let newrefresh = debouce(this.$refs.scroll.refresh, 400)
+    this.newrefresh = debouce(this.$refs.scroll.refresh, 400)
     this.itemListener = () => {
-      newrefresh()
+      this.newrefresh()
     }
     this.$bus.$on('imageItemload', this.itemListener)
   }

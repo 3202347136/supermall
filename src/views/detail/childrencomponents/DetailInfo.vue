@@ -17,7 +17,6 @@ export default {
   name: 'DetailInfo',
   data() {
     return {
-      counter: 0,
       imgLength: 0
     }
   },
@@ -31,16 +30,8 @@ export default {
   },
   methods: {
     imgLoad() {
-      if (++this.counter === this.imgLength) {
-        this.$emit('imgLoad')
-      }
+      this.$emit('imgLoad')
     }
-  },
-  watch: {
-    detailInfo() {
-      this.imgLength === this.detailInfo.detailImage[0].list.length
-    }
-
   }
 }
 </script>
